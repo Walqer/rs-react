@@ -16,15 +16,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+        "pre-commit": "npm run lint",
+        "pre-push": "npm run test"
     }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,json,css,scss,md,html}": [
-      "prettier -w ",
-      "npm run lint-fix",
-      "git add -A"
-    ]
   },
   "dependencies": {
     "husky": "^8.0.3",
