@@ -14,12 +14,6 @@
     "prepare": "husky install",
     "postinstall": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run test"
-    }
-  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
