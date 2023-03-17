@@ -10,6 +10,7 @@
     "lint": "eslint **/*.tsx",
     "lint-fix": "eslint --fix **/*.tsx",
     "test": "vitest",
+    "coverage": "vitest --coverage",
     "format": "prettier -w .",
     "prepare": "husky install",
     "postinstall": "husky install"
@@ -27,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.3",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
