@@ -32,7 +32,13 @@ class Search extends React.Component<object, SearchState> {
     const { data } = this.state;
     return (
       <form className="search-form">
-        <input onInput={this.onChange} name="search" type="search" defaultValue={data} />
+        <input
+          onInput={this.onChange}
+          name="search"
+          type="search"
+          defaultValue={data}
+          placeholder="Adam Sendler"
+        />
       </form>
     );
   }
