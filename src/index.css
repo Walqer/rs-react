@@ -1,0 +1,20 @@
+.user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  justify-content: center;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+.user-card {
+  justify-content: center;
+  border: 2px solid gray;
+  padding: 10px;
+}
+
+.user-card img {
+  display: block;
+  margin: 0 auto;
+}
