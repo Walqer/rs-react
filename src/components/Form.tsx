@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 
 // eslint-disable-next-line react/prefer-stateless-function
-interface FormProps {
+export interface FormProps {
   inputName: string;
   inputLastName: string;
   inputBirthday: string;
@@ -9,9 +9,14 @@ interface FormProps {
   inputPersonal: boolean;
   inputSex: string;
   inputAvatar: string;
+  curentTime: string;
 }
 
-class Form extends React.Component<object, FormProps> {
+interface CardCreate {
+  createCard: (cardData: FormProps) => void;
+}
+
+export class Form extends React.Component<CardCreate, FormProps> {
   private nameRef: React.RefObject<HTMLInputElement>;
 
   private lastNameRef: React.RefObject<HTMLInputElement>;
@@ -28,7 +33,7 @@ class Form extends React.Component<object, FormProps> {
 
   private avatarRef: React.RefObject<HTMLInputElement>;
 
-  constructor(props: FormProps) {
+  constructor(props: CardCreate) {
     super(props);
     this.nameRef = React.createRef();
     this.lastNameRef = React.createRef();
@@ -46,11 +51,14 @@ class Form extends React.Component<object, FormProps> {
       inputPersonal: false,
       inputSex: 'male',
       inputAvatar: '',
+      curentTime: '',
     };
   }
 
   handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.createCard(this.state);
     if (this.nameRef?.current?.value) this.nameRef.current.value = '';
     if (this.lastNameRef?.current?.value) this.lastNameRef.current.value = '';
     if (this.birthdayRef?.current?.value) this.birthdayRef.current.value = '';
@@ -58,7 +66,6 @@ class Form extends React.Component<object, FormProps> {
     if (this.personalRef?.current?.checked) this.personalRef.current.checked = false;
     if (this.maleRef?.current?.checked === false) this.maleRef.current.checked = true;
     if (this.avatarRef?.current?.value) this.avatarRef.current.value = '';
-    console.log(this.state);
   };
 
   handleChange = () => {
@@ -69,7 +76,10 @@ class Form extends React.Component<object, FormProps> {
       selectCountry: this.countryRef.current?.value ?? '',
       inputPersonal: this.personalRef.current?.checked ?? false,
       inputSex: this.maleRef.current?.checked ? 'male' : 'female',
-      inputAvatar: this.avatarRef.current?.value ?? '',
+      inputAvatar: this.avatarRef.current?.files
+        ? URL.createObjectURL(this.avatarRef.current.files[0])
+        : '',
+      curentTime: new Date().getDate.toString(),
     });
   };
 
@@ -138,19 +148,10 @@ class Form extends React.Component<object, FormProps> {
         </label>
         <label className="form-label" htmlFor="avatar">
           Add avatar
-          <input
-            required
-            ref={this.avatarRef}
-            id="avatar"
-            type="file"
-            accept="image/png, image/jpeg"
-          />
+          <input ref={this.avatarRef} id="avatar" type="file" accept="image/png, image/jpeg" />
         </label>
         <input type="submit" placeholder="Submit" />
-        <input type="reset" placeholder="Reset" />
       </form>
     );
   }
 }
-
-export default Form;
