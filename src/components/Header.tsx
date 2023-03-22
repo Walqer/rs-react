@@ -11,6 +11,9 @@ function Header() {
         <NavLink className="menu-link" to="/">
           Home
         </NavLink>
+        <NavLink className="menu-link" to="/form">
+          Form
+        </NavLink>
         <NavLink className="menu-link" to="/about">
           About
         </NavLink>
