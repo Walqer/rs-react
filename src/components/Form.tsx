@@ -59,6 +59,7 @@ export class Form extends React.Component<CardCreate, FormProps> {
     event.preventDefault();
     // eslint-disable-next-line react/destructuring-assignment
     this.props.createCard(this.state);
+    alert('data has been saved');
     if (this.nameRef?.current?.value) this.nameRef.current.value = '';
     if (this.lastNameRef?.current?.value) this.lastNameRef.current.value = '';
     if (this.birthdayRef?.current?.value) this.birthdayRef.current.value = '';
@@ -76,10 +77,10 @@ export class Form extends React.Component<CardCreate, FormProps> {
       selectCountry: this.countryRef.current?.value ?? '',
       inputPersonal: this.personalRef.current?.checked ?? false,
       inputSex: this.maleRef.current?.checked ? 'male' : 'female',
-      inputAvatar: this.avatarRef.current?.files
+      inputAvatar: this.avatarRef.current?.files?.length
         ? URL.createObjectURL(this.avatarRef.current.files[0])
         : '',
-      curentTime: new Date().getDate.toString(),
+      curentTime: new Date().toString(),
     });
   };
 
@@ -97,6 +98,7 @@ export class Form extends React.Component<CardCreate, FormProps> {
             type="text"
             id="username"
             name="username"
+            maxLength={20}
           />
         </label>
         <label className="form-label" htmlFor="userlastname">
@@ -108,6 +110,7 @@ export class Form extends React.Component<CardCreate, FormProps> {
             id="userlastname"
             name="userlastname"
             required
+            maxLength={20}
           />
         </label>
         <label className="form-label" htmlFor="birthday">

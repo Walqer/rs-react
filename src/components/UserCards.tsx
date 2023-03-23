@@ -46,7 +46,7 @@ class UsersCards extends React.Component<object, { users: User[] }> {
   }
 
   componentDidMount() {
-    fetch('https://randomuser.me/api/?results=10')
+    fetch('/data/users.json')
       .then((response) => response.json())
       .then((data) => this.setState({ users: data.results }));
   }

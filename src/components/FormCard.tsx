@@ -48,15 +48,16 @@ export class Card extends React.Component<CardProps> {
   render() {
     const { cardData: user } = this.props;
     return (
-      <div className="user-card">
-        <img src={user.inputAvatar} alt="" />
+      <li className="user-card">
+        <img className="user-card__img" src={user.inputAvatar} alt="card " />
         <p>
-          {user.inputName} {user.inputLastName}
+          {user.inputName} <br />
+          {user.inputLastName}
         </p>
-        <p>{user.inputBirthday}</p>
-        <p>{user.inputSex}</p>
-        <p>{user.selectCountry}</p>
-      </div>
+        <p>birthday: {user.inputBirthday}</p>
+        <p>gender: {user.inputSex}</p>
+        <p>country: {user.selectCountry}</p>
+      </li>
     );
   }
 }
