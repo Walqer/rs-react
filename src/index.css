@@ -74,8 +74,20 @@
   padding: 5px;
 }
 
+.form-title {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
 .form-label {
   cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.error {
+  display: block;
+  color: red;
+  padding: 5px 0;
 }
 
 .card-list {
@@ -83,20 +95,20 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 200px);
+  grid-template-columns: repeat(4, 255px);
   grid-template-rows: 320px;
   grid-gap: 10px;
 }
 
 .form-section {
   display: grid;
-  grid-template-rows: 300px 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 320px 1fr;
   grid-gap: 10px;
 }
 
 .user-card__img {
-  width: 150px;
+  width: 200px;
   height: 150px;
   object-fit: cover;
 }
