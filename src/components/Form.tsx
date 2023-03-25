@@ -1,5 +1,14 @@
 import React, { ChangeEvent, SyntheticEvent } from 'react';
 
+interface FormErrors {
+  [key: string]: string;
+  nameError: string;
+  surNameError: string;
+  ageError: string;
+  termsError: string;
+  fileError: string;
+}
+
 export interface FormProps {
   inputName: string;
   inputLastName: string;
@@ -9,11 +18,7 @@ export interface FormProps {
   inputSex: string;
   inputAvatar: string;
   curentTime: string;
-  nameError: string;
-  surNameError: string;
-  ageError: string;
-  termsError: string;
-  fileError: string;
+  errors: FormErrors;
 }
 
 interface CardCreate {
@@ -42,6 +47,8 @@ export class Form extends React.Component<CardCreate, FormProps> {
 
   private avatarRef: React.RefObject<HTMLInputElement>;
 
+  private submitRef: React.RefObject<HTMLInputElement>;
+
   constructor(props: CardCreate) {
     super(props);
     this.nameRef = React.createRef();
@@ -52,12 +59,15 @@ export class Form extends React.Component<CardCreate, FormProps> {
     this.maleRef = React.createRef();
     this.femaleRef = React.createRef();
     this.avatarRef = React.createRef();
+    this.submitRef = React.createRef();
     this.state = {
-      nameError: '',
-      surNameError: '',
-      ageError: '',
-      termsError: '',
-      fileError: '',
+      errors: {
+        nameError: '',
+        surNameError: '',
+        ageError: '',
+        termsError: '',
+        fileError: '',
+      },
       inputName: '',
       inputLastName: '',
       inputBirthday: '1998-08-27',
@@ -75,13 +85,13 @@ export class Form extends React.Component<CardCreate, FormProps> {
     if (name.length > 20 || name.length < 1) {
       return {
         result: false,
-        message: `Длинна имени и фамилии должна быть не более 20 символов и не менее 1`,
+        message: `The length of the name and surname must be no more than 20 characters and no less than 1`,
       };
     }
     if (!(name[0] === name[0].toUpperCase())) {
       return {
         result: false,
-        message: `Первая должна быть заглавной буквой`,
+        message: `The first letter should be a capital letter.`,
       };
     }
     return {
@@ -99,7 +109,7 @@ export class Form extends React.Component<CardCreate, FormProps> {
     if (age < 4 || age > 100) {
       return {
         result: false,
-        message: `Возразст не может быть меньше 4 или больше 100 лет`,
+        message: `Age cannot be less than 4 or more than 100 years`,
       };
     }
     return {
@@ -108,18 +118,18 @@ export class Form extends React.Component<CardCreate, FormProps> {
     };
   };
 
-  checkTermsAgreement = () => {
-    if (!this.personalRef.current!.checked) {
-      return {
-        result: false,
-        message: `You must agree with the terms`,
-      };
-    }
-    return {
-      result: true,
-      message: `You agreed with the terms`,
-    };
-  };
+  // checkTermsAgreement = () => {
+  //   if (!this.personalRef.current!.checked) {
+  //     return {
+  //       result: false,
+  //       message: `You must agree with the terms`,
+  //     };
+  //   }
+  //   return {
+  //     result: true,
+  //     message: `You agreed with the terms`,
+  //   };
+  // };
 
   checkFileSize = () => {
     const avatar = this?.avatarRef?.current?.files?.[0];
@@ -130,9 +140,20 @@ export class Form extends React.Component<CardCreate, FormProps> {
       };
     }
     return {
-      result: false,
+      result: true,
       message: `Your image is accepted`,
     };
+  };
+
+  checkValidity = () => {
+    const { errors } = this.state;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item in errors) {
+      if (errors[item]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   handleSubmit = (event: SyntheticEvent) => {
@@ -154,37 +175,75 @@ export class Form extends React.Component<CardCreate, FormProps> {
     if (this.nameRef.current === target) {
       const validation = this.isNameValid(event);
       if (!validation.result) {
-        this.setState({ nameError: validation.message });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            nameError: validation.message,
+          },
+        }));
       } else {
-        this.setState({ nameError: '' });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            nameError: '',
+          },
+        }));
       }
     }
     if (this.lastNameRef.current === target) {
       const validation = this.isNameValid(event);
       if (!validation.result) {
-        this.setState({ surNameError: validation.message });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            surNameError: validation.message,
+          },
+        }));
       } else {
-        this.setState({ surNameError: '' });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            surNameError: '',
+          },
+        }));
       }
     }
     if (this.birthdayRef.current === target) {
       const validation = this.isAgeValid();
       if (!validation.result) {
-        this.setState({ ageError: validation.message });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            ageError: validation.message,
+          },
+        }));
       } else {
-        this.setState({ ageError: '' });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            ageError: '',
+          },
+        }));
       }
     }
     if (this.avatarRef.current === target) {
       const validation = this.checkFileSize();
       if (!validation.result) {
-        this.setState({ fileError: validation.message });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            fileError: validation.message,
+          },
+        }));
       } else {
-        this.setState({ fileError: '' });
+        this.setState((prevState) => ({
+          errors: {
+            ...prevState.errors,
+            fileError: '',
+          },
+        }));
       }
     }
-    this.checkTermsAgreement();
-    this.checkFileSize();
     this.setState({
       inputName: this.nameRef.current?.value ?? '',
       inputLastName: this.lastNameRef.current?.value ?? '',
@@ -200,7 +259,9 @@ export class Form extends React.Component<CardCreate, FormProps> {
   };
 
   render() {
-    const { inputName, inputLastName, inputBirthday, selectCountry, inputPersonal } = this.state;
+    const { errors, inputName, inputLastName, inputBirthday, selectCountry, inputPersonal } =
+      this.state;
+
     return (
       <form onSubmit={this.handleSubmit} className="addUserForm">
         <h2 className="form-title">Add person</h2>
@@ -213,11 +274,9 @@ export class Form extends React.Component<CardCreate, FormProps> {
             id="username"
             name="username"
             onChange={this.handleChange}
+            required
           />
-          {
-            // eslint-disable-next-line react/destructuring-assignment
-            this.state.nameError && <span className="error">{this.state.nameError}</span>
-          }
+          {errors.nameError && <span className="error">{errors.nameError}</span>}
         </label>
         <label className="form-label" htmlFor="userlastname">
           Last Name:
@@ -228,11 +287,9 @@ export class Form extends React.Component<CardCreate, FormProps> {
             id="userlastname"
             name="userlastname"
             onChange={this.handleChange}
+            required
           />
-          {
-            // eslint-disable-next-line react/destructuring-assignment
-            this.state.surNameError && <span className="error">{this.state.surNameError}</span>
-          }
+          {errors.surNameError && <span className="error">{errors.surNameError}</span>}
         </label>
 
         <label className="form-label" htmlFor="birthday">
@@ -244,16 +301,20 @@ export class Form extends React.Component<CardCreate, FormProps> {
             id="birthday"
             name="birthday"
             onChange={this.handleChange}
+            required
           />
-          {
-            // eslint-disable-next-line react/destructuring-assignment
-            this.state.ageError && <span className="error">{this.state.ageError}</span>
-          }
+          {errors.ageError && <span className="error">{errors.ageError}</span>}
         </label>
 
         <label className="form-label" htmlFor="country">
           Country:
-          <select ref={this.countryRef} defaultValue={selectCountry} name="country" id="country">
+          <select
+            required
+            ref={this.countryRef}
+            defaultValue={selectCountry}
+            name="country"
+            id="country"
+          >
             <option value="Kazakhstan">Kazakhstan</option>
             <option value="Belorussia">Belorussia</option>
             <option value="Russia">Russia</option>
@@ -267,6 +328,7 @@ export class Form extends React.Component<CardCreate, FormProps> {
             defaultChecked={inputPersonal}
             id="personal"
             type="checkbox"
+            required
           />
         </label>
         <label className="form-label" htmlFor="male">
@@ -280,19 +342,22 @@ export class Form extends React.Component<CardCreate, FormProps> {
         <label className="form-label" htmlFor="avatar">
           Add avatar
           <input
+            required
             ref={this.avatarRef}
             id="avatar"
             type="file"
             accept="image/png, image/jpeg"
-            onInput={this.handleChange}
+            onChange={this.handleChange}
           />
-          {
-            // eslint-disable-next-line react/destructuring-assignment
-            this.state.fileError && <span className="error">{this.state.fileError}</span>
-          }
+          {errors.fileError && <span className="error">{errors.fileError}</span>}
         </label>
 
-        <input type="submit" placeholder="Submit" />
+        <input
+          disabled={!this.checkValidity()}
+          ref={this.submitRef}
+          type="submit"
+          placeholder="Submit"
+        />
       </form>
     );
   }

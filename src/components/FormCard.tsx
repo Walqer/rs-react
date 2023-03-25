@@ -50,7 +50,7 @@ export class Card extends React.Component<CardProps> {
     return (
       <li className="user-card">
         <img className="user-card__img" src={user.inputAvatar} alt="card " />
-        <span>name: {user.inputName}</span>
+        <span>name: {user.inputName}</span> <br />
         <span>surname : {user.inputLastName}</span>
         <p>birthday: {user.inputBirthday}</p>
         <p>gender: {user.inputSex}</p>
