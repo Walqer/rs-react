@@ -11,7 +11,7 @@
     "lint-fix": "eslint --fix **/*.tsx",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "format": "prettier -w .",
+    "format": "git diff --name-only --cached | xargs prettier --list-different --write",
     "prepare": "husky install",
     "postinstall": "husky install"
   },
