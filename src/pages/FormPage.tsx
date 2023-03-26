@@ -14,7 +14,7 @@ class FormPage extends React.Component<unknown, FormPageState> {
     super(props);
     this.state = {
       cardList: [],
-      modalVisibility: true,
+      modalVisibility: false,
     };
   }
 
