@@ -5,7 +5,7 @@
     "noFallthroughCasesInSwitch": true,
     "useDefineForClassFields": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "./src",
+    "baseUrl": "../",
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
