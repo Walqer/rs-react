@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface User {
   gender: string;
@@ -37,38 +37,29 @@ interface User {
   nat: string;
 }
 
-class UsersCards extends React.Component<object, { users: User[] }> {
-  constructor(props: User) {
-    super(props);
-    this.state = {
-      users: [] as User[],
-    };
-  }
-
-  componentDidMount() {
+function UsersCards() {
+  const [users, setUsers] = useState<User[]>([]);
+  useEffect(() => {
     fetch('/data/users.json')
       .then((response) => response.json())
-      .then((data) => this.setState({ users: data.results }));
-  }
+      .then((data) => setUsers(data.results));
+  });
 
-  render() {
-    const { users } = this.state;
-    return (
-      <ul className="user-list">
-        {users.map((user) => (
-          <li className="user-card" key={user.login.username}>
-            <img src={user.picture.large} alt="" />
-            <p>
-              {user.name.first} {user.name.last}
-            </p>
-            <p>
-              {user.location.city}, {user.location.state}, {user.location.country}
-            </p>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  return (
+    <ul className="user-list">
+      {users.map((user) => (
+        <li className="user-card" key={user.login.username}>
+          <img src={user.picture.large} alt={`${user.login.username} logo`} />
+          <p>
+            {user.name.first} {user.name.last}
+          </p>
+          <p>
+            {user.location.city}, {user.location.state}, {user.location.country}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default UsersCards;
