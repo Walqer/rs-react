@@ -1,47 +1,23 @@
-/* eslint-disable react/prefer-stateless-function */
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
-interface SearchState {
-  data: string;
+export default function Search() {
+  const [data, setData] = useState(localStorage.searchData);
+
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value: searchData } = event.target;
+    setData(searchData);
+    localStorage.searchData = searchData;
+  };
+
+  return (
+    <form className="search-form">
+      <input
+        onInput={handleInput}
+        name="search"
+        type="search"
+        defaultValue={data}
+        placeholder="Adam Sendler"
+      />
+    </form>
+  );
 }
-
-class Search extends React.Component<object, SearchState> {
-  constructor(props: SearchState) {
-    super(props);
-    this.state = {
-      data: '',
-    };
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentDidMount() {
-    if (localStorage.searchData) this.setState({ data: localStorage.searchData });
-  }
-
-  componentWillUnmount() {
-    const { data } = this.state;
-    localStorage.searchData = data;
-  }
-
-  onChange(event: ChangeEvent<HTMLInputElement>) {
-    const { target } = event;
-    this.setState({ data: target.value });
-  }
-
-  render() {
-    const { data } = this.state;
-    return (
-      <form className="search-form">
-        <input
-          onInput={this.onChange}
-          name="search"
-          type="search"
-          defaultValue={data}
-          placeholder="Adam Sendler"
-        />
-      </form>
-    );
-  }
-}
-
-export default Search;
