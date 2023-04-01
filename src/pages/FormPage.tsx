@@ -46,7 +46,7 @@ class FormPage extends React.Component<unknown, FormPageState> {
           />
           <ul className="card-list">
             {cardList.map((card) => {
-              return <Card key={card.curentTime} cardData={card} />;
+              return <Card key={card.createdTime} cardData={card} />;
             })}
           </ul>
         </section>

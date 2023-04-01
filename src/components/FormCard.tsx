@@ -46,7 +46,7 @@ export function Card(props: CardProps) {
   const { cardData: user } = props;
   return (
     <li className="user-card">
-      <img className="user-card__img" src={user.inputAvatar} alt="card" />
+      <img className="user-card__img" src={user.avatarLink} alt="card" />
       <span>name: {user.inputName}</span> <br />
       <span>surname : {user.inputLastName}</span>
       <p>birthday: {user.inputBirthday}</p>
