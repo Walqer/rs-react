@@ -119,7 +119,7 @@ export function Form(props: CardCreate) {
         >
           <option value="">Select country</option>
           <option value="Kazakhstan">Kazakhstan</option>
-          <option value="Belorussia">Belorussia</option>
+          <option value="Belarus">Belarus</option>
           <option value="Russia">Russia</option>
           <option value="Ukraine">Ukraine</option>
         </select>
