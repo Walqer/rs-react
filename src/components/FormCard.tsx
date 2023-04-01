@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { FormProps } from './Form';
 
 export interface User {
@@ -43,19 +42,16 @@ interface CardProps {
   cardData: FormProps;
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
-export class Card extends React.Component<CardProps> {
-  render() {
-    const { cardData: user } = this.props;
-    return (
-      <li className="user-card">
-        <img className="user-card__img" src={user.inputAvatar} alt="card " />
-        <span>name: {user.inputName}</span> <br />
-        <span>surname : {user.inputLastName}</span>
-        <p>birthday: {user.inputBirthday}</p>
-        <p>gender: {user.inputSex}</p>
-        <p>country: {user.selectCountry}</p>
-      </li>
-    );
-  }
+export function Card(props: CardProps) {
+  const { cardData: user } = props;
+  return (
+    <li className="user-card">
+      <img className="user-card__img" src={user.inputAvatar} alt="card" />
+      <span>name: {user.inputName}</span> <br />
+      <span>surname : {user.inputLastName}</span>
+      <p>birthday: {user.inputBirthday}</p>
+      <p>gender: {user.inputSex}</p>
+      <p>country: {user.selectCountry}</p>
+    </li>
+  );
 }
