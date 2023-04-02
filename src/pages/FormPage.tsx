@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import { Card } from '../components/FormCard';
+import Card from '../components/FormCard';
 import { FormProps, Form } from '../components/Form';
 import Modal from '../components/Modal';
 

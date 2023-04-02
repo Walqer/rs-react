@@ -48,7 +48,8 @@
     "@typescript-eslint/no-var-reqiures": "off",
     "class-methods-use-this": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "react": {

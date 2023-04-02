@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 
 interface ModalProps {
@@ -11,9 +10,9 @@ export default function Modal(props: ModalProps) {
   const { closeModal, modalVisibility, modalText } = props;
   const ModalClass = modalVisibility ? 'modal open' : 'modal';
   return (
-    <div className={ModalClass} onClick={closeModal} onKeyDown={closeModal} role="dialog">
+    <div className={ModalClass} onClick={closeModal} onKeyDown={closeModal} role="presentation">
       <div
-        role="contentinfo"
+        role="presentation"
         className="modal__content"
         onKeyDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
