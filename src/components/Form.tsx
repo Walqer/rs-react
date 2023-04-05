@@ -40,7 +40,7 @@ export function Form(props: CardCreate) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormProps>();
+  } = useForm<FormProps>({ reValidateMode: 'onSubmit' });
 
   const onSubmit = (data: FormProps) => {
     const formData = {
