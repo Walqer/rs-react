@@ -11,7 +11,7 @@
     "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src --quiet",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "format": "git diff --name-only --cached | xargs prettier --list-different --write",
+    "format": "git diff --name-only --diff-filter=d --cached | xargs prettier --list-different --write",
     "prepare": "husky install",
     "postinstall": "husky install"
   },
