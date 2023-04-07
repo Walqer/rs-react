@@ -154,3 +154,11 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
