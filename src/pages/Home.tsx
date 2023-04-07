@@ -3,15 +3,18 @@ import Search from '../components/Search';
 import CharacterCards from '../components/CharacterCards';
 import Character from '../interfaces/Character';
 import preloader from '../assets/Hourglass.gif';
+import Modal from '../components/Modal';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const [characterId, setCharacterId] = useState<number>();
+  const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [isPending, setIsPending] = useState(true);
   const hadleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
-  const [characters, setCharacters] = useState<Character[] | null>(null);
-  const [isPending, setIsPending] = useState(true);
   useEffect(() => {
     fetch(`https://rickandmortyapi.com/api/character/?name=${searchQuery}`)
       .then((response) => response.json())
@@ -24,6 +27,15 @@ function Home() {
     };
   }, [searchQuery]);
 
+  const closeModal = () => {
+    setModalVisibility(false);
+  };
+
+  const showModal = (id: number) => {
+    setCharacterId(id);
+    return setModalVisibility(true);
+  };
+
   return (
     <>
       <h1 className="main-title">Hello these are random people in the world</h1>
@@ -34,7 +46,12 @@ function Home() {
           <span>Loading...</span>
         </div>
       )}
-      {characters && <CharacterCards characters={characters} />}
+      {characters && <CharacterCards showModal={showModal} characters={characters} />}
+      <Modal
+        modalVisibility={modalVisibility}
+        closeModal={closeModal}
+        modalText={`${characterId}`}
+      />
     </>
   );
 }

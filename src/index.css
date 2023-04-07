@@ -12,6 +12,7 @@
   justify-content: center;
   border: 2px solid gray;
   padding: 10px;
+  cursor: pointer;
 }
 
 .user-card img {
