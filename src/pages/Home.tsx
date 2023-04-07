@@ -46,12 +46,20 @@ function Home() {
           <span>Loading...</span>
         </div>
       )}
-      {characters && <CharacterCards showModal={showModal} characters={characters} />}
-      <Modal
-        modalVisibility={modalVisibility}
-        closeModal={closeModal}
-        modalText={`${characterId}`}
-      />
+      {characters && (
+        <>
+          <CharacterCards showModal={showModal} characters={characters} />
+          <Modal
+            modalVisibility={modalVisibility}
+            closeModal={closeModal}
+            modalText={`${JSON.stringify(characters![characterId!])}`}
+            // 1. создать модуль с полными данными персонажа
+            // 2. в модуль будут передаваться данные из json который получен через id через пропсы
+            // 3. Далее этот модуль будет передаваться в модалку в как props и там отрисовываться
+            // 4. затем нужно пофиксить баг модалки тобишь зафиксировать боди чтобы модалка не глючила
+          />
+        </>
+      )}
     </>
   );
 }
