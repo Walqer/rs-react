@@ -10,11 +10,11 @@ function CharacterCards(props: CharacterCardsProps) {
   const { characters, showModal } = props;
   return (
     <ul className="user-list">
-      {characters?.map((person) => (
+      {characters?.map((person, index) => (
         <li
           className="user-card"
           key={person.id}
-          onClick={() => showModal(person.id)}
+          onClick={() => showModal(index)}
           role="presentation"
         >
           <img src={person.image} alt={`${person.name}`} />

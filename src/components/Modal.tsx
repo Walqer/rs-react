@@ -3,11 +3,12 @@ import React from 'react';
 interface ModalProps {
   modalVisibility: boolean;
   closeModal: () => void;
-  modalText: string;
+  modalText?: string;
+  modalComponent?: React.ReactElement;
 }
 
 export default function Modal(props: ModalProps) {
-  const { closeModal, modalVisibility, modalText } = props;
+  const { closeModal, modalVisibility, modalText, modalComponent } = props;
   const ModalClass = modalVisibility ? 'modal open' : 'modal';
   return (
     <div className={ModalClass} onClick={closeModal} onKeyDown={closeModal} role="presentation">
@@ -17,7 +18,8 @@ export default function Modal(props: ModalProps) {
         onKeyDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
-        <p>{modalText}</p>
+        {modalText && <p>{modalText}</p>}
+        {modalComponent || ''}
         <button className="button" onClick={closeModal} type="button">
           Close
         </button>
@@ -25,3 +27,8 @@ export default function Modal(props: ModalProps) {
     </div>
   );
 }
+
+Modal.defaultProps = {
+  modalComponent: null, // или любое другое значение по умолчанию
+  modalText: null,
+};
