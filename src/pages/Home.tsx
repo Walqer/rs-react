@@ -3,11 +3,13 @@ import Search from '../components/Search';
 import CharacterCards from '../components/CharacterCards';
 import Character from '../interfaces/Character';
 import preloader from '../assets/Hourglass.gif';
+import mortygif from '../assets/mortyhead.gif';
 import Modal from '../components/Modal';
 import CharacterCard from '../components/DetailedCard';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState<boolean>(false);
   const [modalVisibility, setModalVisibility] = useState(false);
   const [characterId, setCharacterId] = useState<number>();
   const [characters, setCharacters] = useState<Character[] | null>(null);
@@ -18,7 +20,15 @@ function Home() {
 
   useEffect(() => {
     fetch(`https://rickandmortyapi.com/api/character/${searchQuery}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          setError(true);
+          setIsPending(false);
+        } else {
+          setError(false);
+        }
+        return response.json();
+      })
       .then((data) => setCharacters(data.results))
       .then(() => setIsPending(false));
 
@@ -30,6 +40,7 @@ function Home() {
 
   const closeModal = () => {
     setModalVisibility(false);
+    setCharacterId(undefined);
   };
 
   const showModal = (id: number) => {
@@ -38,7 +49,7 @@ function Home() {
   };
   return (
     <>
-      <h1 className="main-title">Hello these are random people in the world</h1>
+      <h1 className="main-title">Hello these are characters from the Rick & Morty</h1>
       <Search onSearch={hadleSearch} />
       {isPending && (
         <div className="preloader">
@@ -46,12 +57,18 @@ function Home() {
           <span>Loading...</span>
         </div>
       )}
-      {characters && <CharacterCards showModal={showModal} characters={characters} />}
+      {error && (
+        <div className="preloader">
+          <img width={256} height={256} src={mortygif} alt="preloader" />
+          <span>Character not found</span>
+        </div>
+      )}
+      {characters && !error && <CharacterCards showModal={showModal} characters={characters} />}
       {(characterId || characterId === 0) && (
         <Modal
           modalVisibility={modalVisibility}
           closeModal={closeModal}
-          modalComponent={<CharacterCard character={characters![characterId]} />}
+          modalComponent={<CharacterCard id={characterId} />}
         />
       )}
     </>

@@ -163,10 +163,12 @@
   justify-content: center;
   flex-direction: column;
   margin-bottom: 20px;
+  font-size: 32px;
 }
 
 .character {
   display: flex;
+  margin-bottom: 10px;
 }
 .character__img {
   width: 200px;
