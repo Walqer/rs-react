@@ -37,6 +37,7 @@ export default function CharacterCard(props: CharacterCardProps) {
       <div className="preloader">
         <img width={128} height={128} src={mortygif} alt="preloader" />
         <span>mortygif...</span>
+        <span>Character not found</span>
       </div>
     );
   }
