@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-export interface FormProps {
+export interface FormCardProps {
   inputName: string;
   inputLastName: string;
   inputBirthday: string;
@@ -14,7 +14,7 @@ export interface FormProps {
 }
 
 interface CardCreate {
-  createCard: (cardData: FormProps) => void;
+  createCard: (cardData: FormCardProps) => void;
 }
 
 enum Size {
@@ -40,9 +40,9 @@ export function Form(props: CardCreate) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormProps>({ reValidateMode: 'onSubmit' });
+  } = useForm<FormCardProps>({ reValidateMode: 'onSubmit' });
 
-  const onSubmit = (data: FormProps) => {
+  const onSubmit = (data: FormCardProps) => {
     const formData = {
       ...data,
       avatarLink: URL.createObjectURL(data.inputFile[0]),

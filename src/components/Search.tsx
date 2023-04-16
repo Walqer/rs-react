@@ -1,32 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { saveQuery } from '../store/searchSlice';
+import IState from '../interfaces/IsearchState';
 
-interface SearchProps {
-  onSearch: (query: string) => void;
-}
-
-export interface FormProps {
-  serchQuery: string;
-}
-
-export default function Search(props: SearchProps) {
-  const [data, setData] = useState(localStorage.searchData);
-  const { onSearch } = props;
+export default function Search() {
+  const [text, setText] = useState<string>('');
+  const dispatch = useDispatch();
+  const query = useSelector((state: IState) => state.search.query);
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { value: searchData } = event.target;
-    setData(searchData);
-    localStorage.searchData = searchData;
+    setText(searchData);
     if (searchData.length === 0) {
-      onSearch(data);
+      dispatch(saveQuery(text));
     }
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSearch(data);
+    dispatch(saveQuery(text));
   };
-
-  useEffect(() => {
-    onSearch(data);
-  }, []);
 
   return (
     <form className="search-form" onSubmit={onSubmit}>
@@ -35,7 +26,7 @@ export default function Search(props: SearchProps) {
         onInput={handleInput}
         name="search"
         type="search"
-        defaultValue={data}
+        defaultValue={query}
         placeholder="Rick"
       />
     </form>

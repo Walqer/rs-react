@@ -1,69 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Search from '../components/Search';
 import CharacterCards from '../components/CharacterCards';
-import Character from '../interfaces/Character';
-import preloader from '../assets/Hourglass.gif';
-import mortygif from '../assets/mortyhead.gif';
 import Modal from '../components/Modal';
 import CharacterCard from '../components/DetailedCard';
+import preloader from '../assets/Hourglass.gif';
+import mortygif from '../assets/mortyhead.gif';
+import IState from '../interfaces/IsearchState';
+import { setCharacterId } from '../store/searchSlice';
+import { useGetCharactersQuery } from '../api/character';
 
 function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [error, setError] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const searchQuery = useSelector((state: IState) => state.search.query);
+  const { data: characters, isFetching, isError } = useGetCharactersQuery(`?name=${searchQuery}`);
+  const characterId = useSelector((state: IState) => state.search.characterId);
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [characterId, setCharacterId] = useState<number>();
-  const [characters, setCharacters] = useState<Character[] | null>(null);
-  const [isPending, setIsPending] = useState(true);
-  const hadleSearch = (query: string) => {
-    setSearchQuery(`?name=${query}`);
-  };
-
-  useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/${searchQuery}`)
-      .then((response) => {
-        if (!response.ok) {
-          setError(true);
-          setIsPending(false);
-        } else {
-          setError(false);
-        }
-        return response.json();
-      })
-      .then((data) => setCharacters(data.results))
-      .then(() => setIsPending(false));
-
-    return () => {
-      setIsPending(true);
-      setCharacters(null);
-    };
-  }, [searchQuery]);
 
   const closeModal = () => {
     setModalVisibility(false);
-    setCharacterId(undefined);
+    dispatch(setCharacterId(undefined));
   };
 
   const showModal = (id: number) => {
     setModalVisibility(true);
-    setCharacterId(id);
+    dispatch(setCharacterId(id));
   };
   return (
     <>
       <h1 className="main-title">Hello these are characters from the Rick & Morty</h1>
-      <Search onSearch={hadleSearch} />
-      {isPending && (
+      <Search />
+      {isFetching && (
         <div className="preloader">
           <img width={256} height={256} src={preloader} alt="preloader" />
           <span>Loading...</span>
         </div>
       )}
-      {error && (
+      {isError && (
         <div className="preloader">
           <img width={256} height={256} src={mortygif} alt="preloader" />
           <span>Character not found</span>
         </div>
       )}
-      {characters && !error && <CharacterCards showModal={showModal} characters={characters} />}
+      {characters && !isError && (
+        <CharacterCards showModal={showModal} characters={characters.results} />
+      )}
       {(characterId || characterId === 0) && (
         <Modal
           modalVisibility={modalVisibility}

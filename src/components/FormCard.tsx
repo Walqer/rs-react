@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormProps } from './Form';
+import { FormCardProps } from './Form';
 
 interface CardProps {
-  cardData: FormProps;
+  cardData: FormCardProps;
 }
 
 export default function Card(props: CardProps) {

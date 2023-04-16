@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Card from '../components/FormCard';
-import { FormProps, Form } from '../components/Form';
+import { FormCardProps, Form } from '../components/Form';
 import Modal from '../components/Modal';
+import IState from '../interfaces/IsearchState';
+import { addCard } from '../store/searchSlice';
 
 function FormPage() {
-  const [cardList, setCardList] = useState<FormProps[]>([]);
+  const dispatch = useDispatch();
+  const cardList = useSelector((state: IState) => state.search.cardList);
   const [modalVisibility, setModalVisibility] = useState(false);
 
   const closeModal = () => {
     setModalVisibility(false);
   };
 
-  const createCard = (card: FormProps) => {
+  const createCard = (card: FormCardProps) => {
     setModalVisibility(true);
-    setCardList((prev) => [...prev, card]);
+    dispatch(addCard({ ...card, inputFile: '' }));
   };
 
   return (

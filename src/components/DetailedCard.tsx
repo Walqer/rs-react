@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Character from '../interfaces/Character';
+import React from 'react';
 import preloader from '../assets/Hourglass.gif';
 import mortygif from '../assets/mortyhead.gif';
+import { useGetCharactersQuery } from '../api/character';
 
 interface CharacterCardProps {
   id: number;
 }
 
 export default function CharacterCard(props: CharacterCardProps) {
-  const [characterData, setCharacterData] = useState<Character | null>(null);
-  const [error, setError] = useState<boolean>(false);
   const { id } = props;
-  useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
-      .then((response) => {
-        if (!response.ok) {
-          setError(true);
-        } else {
-          setError(false);
-        }
-        return response.json();
-      })
-      .then((data) => setCharacterData(data));
-  }, [id]);
+  const { data: characterData, isFetching, isError } = useGetCharactersQuery(`${id}`);
 
-  if (!characterData) {
+  if (isFetching) {
     return (
       <div className="preloader">
         <img width={128} height={128} src={preloader} alt="preloader" />
@@ -32,7 +19,7 @@ export default function CharacterCard(props: CharacterCardProps) {
       </div>
     );
   }
-  if (error) {
+  if (isError) {
     return (
       <div className="preloader">
         <img width={128} height={128} src={mortygif} alt="preloader" />
