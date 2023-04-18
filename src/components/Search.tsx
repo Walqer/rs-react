@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveQuery } from '../store/searchSlice';
 import IState from '../interfaces/IsearchState';
 
