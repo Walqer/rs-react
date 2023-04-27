@@ -1,6 +1,6 @@
 import React from 'react';
-import preloader from '../assets/Hourglass.gif';
-import mortygif from '../assets/mortyhead.gif';
+import preloader from '/Hourglass.gif';
+import mortygif from '/mortyhead.gif';
 import { useGetCharactersQuery } from '../api/character';
 
 interface CharacterCardProps {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import preloader from '/Hourglass.gif';
+import mortygif from '/mortyhead.gif';
 import Search from '../components/Search';
 import CharacterCards from '../components/CharacterCards';
 import Modal from '../components/Modal';
 import CharacterCard from '../components/DetailedCard';
-import preloader from '../assets/Hourglass.gif';
-import mortygif from '../assets/mortyhead.gif';
 import IState from '../interfaces/IsearchState';
 import { setCharacterId } from '../store/searchSlice';
 import { useGetCharactersQuery } from '../api/character';
